@@ -1,1 +1,3 @@
-frontend/Dockerfile
+backend-spring/build.gradle
+backend-spring/Dockerfile
+backend-spring/gradlew.bat
