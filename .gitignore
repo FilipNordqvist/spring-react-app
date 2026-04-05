@@ -1,5 +1,3 @@
-backend-spring/build.gradle
 docker-compose.yml
-.gitignore
-backend-spring/Dockerfile
 frontend/Dockerfile
+frontend/package-lock.json
