@@ -1,3 +1,4 @@
 docker-compose.yml
 frontend/Dockerfile
 frontend/package-lock.json
+server/Dockerfile
