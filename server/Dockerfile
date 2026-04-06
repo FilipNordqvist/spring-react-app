@@ -6,7 +6,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Stage 2: Run
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk-alpine
 WORKDIR /app
 # Vi kopierar jar-filen och döper den till app.jar för enkelhetens skull
 COPY --from=build /app/target/*.jar app.jar
