@@ -1,6 +1,0 @@
-docker-compose.yml
-frontend/Dockerfile
-frontend/package-lock.json
-server/Dockerfile
-server/.env
-server/src/main/resources/application.properties
