@@ -20,13 +20,21 @@ jobs:
 
       - name: Verify backend responds
         run: |
-          response=$(curl -sf http://localhost:8080/home)
+          for i in $(seq 1 5); do
+            response=$(curl -sf http://localhost:8080/home) && break
+            echo "Attempt $i failed, retrying in 5s..."
+            sleep 5
+          done
           echo "Backend response: $response"
           [ "$response" = "Spring Boot MVP" ]
 
       - name: Verify frontend responds
         run: |
-          curl -sf http://localhost:3000 | grep -q '<div id="root"'
+          for i in $(seq 1 5); do
+            curl -sf http://localhost:3000 | grep -q '<div id="root"' && break
+            echo "Attempt $i failed, retrying in 5s..."
+            sleep 5
+          done
           echo "Frontend is serving the React app"
 
       - name: Show logs on failure

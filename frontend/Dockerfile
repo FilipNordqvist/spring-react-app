@@ -1,12 +1,8 @@
 FROM node:18-alpine
 WORKDIR /app
-COPY . .
-RUN if [ -f proxy-ca.crt ]; then \
-      cp proxy-ca.crt /etc/ssl/certs/proxy-ca.crt && \
-      cat proxy-ca.crt >> /etc/ssl/certs/ca-certificates.crt; \
-    fi
-ENV NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
+COPY package*.json ./
 RUN npm install
+COPY . .
 
 ENV REACT_APP_API_URL=http://localhost:8080
 
