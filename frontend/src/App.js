@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:8080";
+const API_BASE_URL =
+  window.__ENV__?.REACT_APP_API_URL ||
+  process.env.REACT_APP_API_URL ||
+  "http://localhost:8080";
 
 function App() {
   const [title, setTitle] = useState("...");
