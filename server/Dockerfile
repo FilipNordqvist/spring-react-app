@@ -17,4 +17,4 @@ COPY --from=build /app/target/*.jar app.jar
 # Railway sätter PORT via miljövariabel, lokalt faller vi tillbaka på 8080
 ENV PORT=8080
 
-CMD ["sh", "-c", "java -jar app.jar --server.port=${PORT}"]
+CMD ["java", "-jar", "app.jar"]
