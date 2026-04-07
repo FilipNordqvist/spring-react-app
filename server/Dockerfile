@@ -2,6 +2,9 @@
 FROM maven:3-eclipse-temurin-21 AS build
 WORKDIR /app
 COPY pom.xml .
+# Dependency caching: download deps first so source changes don't re-download.
+# || true because go-offline may partially fail on optional plugins; the real
+# build in the next step will catch genuine errors.
 RUN mvn dependency:go-offline -B || true
 COPY src ./src
 RUN mvn clean package -DskipTests
