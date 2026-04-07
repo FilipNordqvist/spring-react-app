@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-node /app/scripts/generate-env-config.js || {
+node ./scripts/generate-env-config.js || {
   echo "Failed to generate runtime env config"
   exit 1
 }

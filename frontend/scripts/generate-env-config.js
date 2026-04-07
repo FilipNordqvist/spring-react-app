@@ -7,7 +7,7 @@ let apiUrl = defaultApiUrl;
 try {
   const parsed = new URL(rawApiUrl);
   if (parsed.protocol === "http:" || parsed.protocol === "https:") {
-    apiUrl = parsed.toString();
+    apiUrl = parsed.href.replace(/\/$/, "");
   } else {
     console.warn(
       `Unsupported protocol in REACT_APP_API_URL (${parsed.protocol}), using default`
