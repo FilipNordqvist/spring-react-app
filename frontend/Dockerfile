@@ -7,4 +7,4 @@ RUN npm run build
 
 RUN npm install -g serve
 
-CMD ["sh", "-c", "serve -s dist -l ${PORT:-3000}"]
+CMD ["sh", "-c", "serve -s build -l ${PORT:-3000}"]
