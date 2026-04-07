@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+
 const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:8080";
 
 function App() {
@@ -8,6 +9,7 @@ function App() {
   const [recipe, setRecipe] = useState(null);
   const [city, setCity] = useState("");
   const [weather, setWeather] = useState(null);
+
 
   useEffect(() => {
     fetch(`${API_BASE_URL}/home`)
