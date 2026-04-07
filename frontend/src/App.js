@@ -7,22 +7,24 @@ function App() {
   const [city, setCity] = useState("");
   const [weather, setWeather] = useState(null);
 
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
-    fetch("http://localhost:8080/home")
+    fetch(`${API_BASE_URL}/home`)
       .then((response) => response.text())
       .then((text) => setTitle(text))
       .catch((error) => console.log("Error fetching", error));
   }, []);
 
    const fetchRecipe = () => {
-     fetch("http://localhost:8080/recipe")
+     fetch(`${API_BASE_URL}/recipe`)
        .then((response) => response.json())
        .then((data) => setRecipe(data.meals[0]))
        .catch((error) => console.log("Error:", error));
    };
 
  const fetchWeather = () => {
-   fetch(`http://localhost:8080/weather?city=${city}`)
+   fetch(`${API_BASE_URL}/weather?city=${city}`)
      .then((response) => response.json())
      .then((data) => {
        console.log(data); // Kolla vad du får

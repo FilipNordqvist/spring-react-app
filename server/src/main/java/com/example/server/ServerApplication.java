@@ -20,7 +20,7 @@ public class ServerApplication {
 		SpringApplication.run(ServerApplication.class, args);
 	}
 
-	@CrossOrigin
+	@CrossOrigin(origins = "*")
 	@GetMapping("/home")
 	public String home() {
 		return "Spring Boot MVP";
@@ -28,8 +28,9 @@ public class ServerApplication {
 
 	@Value("${weather.api.key}")
 	private String apiKey;
+	
 
-	@CrossOrigin
+	@CrossOrigin(origins = "*")
 	@GetMapping("/weather")
 	public String getWeather(@RequestParam(defaultValue = "Staffanstorp") String city) {
 
@@ -42,7 +43,7 @@ public class ServerApplication {
 		return restTemplate.getForObject(url, String.class);
 	}
 
-	@CrossOrigin
+	@CrossOrigin(origins = "*")
 	@GetMapping("/recipe")
 	public String getRecipe() {
 		String url = "https://www.themealdb.com/api/json/v1/1/random.php";
