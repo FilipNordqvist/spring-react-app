@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:8080";
+
 function App() {
   const [title, setTitle] = useState("...");
   const [page, setPage] = useState("home");
   const [recipe, setRecipe] = useState(null);
   const [city, setCity] = useState("");
   const [weather, setWeather] = useState(null);
-
-  const API_BASE_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     fetch(`${API_BASE_URL}/home`)

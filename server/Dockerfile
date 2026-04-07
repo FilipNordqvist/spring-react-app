@@ -15,6 +15,4 @@ COPY --from=build /app/target/*.jar app.jar
 ENV PORT=8080
 EXPOSE 8080
 
-# Genom att skicka med -Dserver.port som ett argument tvingar vi Spring 
-# att lyssna på den port som Railway (eller du lokalt) bestämmer.
-ENTRYPOINT ["java", "-Dserver.port=${PORT}", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
