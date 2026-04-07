@@ -1,7 +1,26 @@
 import { useEffect, useState } from "react";
 
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:8080";
+const normalizeApiBaseUrl = (value) => {
+  if (!value) {
+    return "http://localhost:8080";
+  }
+
+  const trimmedValue = value.trim().replace(/\/+$/, "");
+
+  if (
+    trimmedValue.startsWith("http://") ||
+    trimmedValue.startsWith("https://")
+  ) {
+    return trimmedValue;
+  }
+
+  return `https://${trimmedValue}`;
+};
+
+const API_BASE_URL = normalizeApiBaseUrl(
+  window.__ENV__?.API_BASE_URL || process.env.REACT_APP_API_URL
+);
 
 function App() {
   const [title, setTitle] = useState("...");
