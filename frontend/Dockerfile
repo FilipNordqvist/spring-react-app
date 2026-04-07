@@ -4,10 +4,9 @@ COPY frontend/package*.json ./
 RUN npm install
 COPY frontend/ .
 
-ENV REACT_APP_API_URL=http://localhost:8080
-
 RUN npm run build
 
 RUN npm install -g serve
+RUN chmod +x /app/docker-entrypoint.sh
 
-CMD ["sh", "-c", "serve -s build -l ${PORT:-3000}"]
+CMD ["/app/docker-entrypoint.sh"]
