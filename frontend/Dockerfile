@@ -1,8 +1,8 @@
 FROM node:18-alpine
 WORKDIR /app
-COPY package*.json ./
+COPY frontend/package*.json ./
 RUN npm install
-COPY . .
+COPY frontend/ .
 
 ENV REACT_APP_API_URL=http://localhost:8080
 
