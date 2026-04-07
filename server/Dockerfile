@@ -1,18 +1,20 @@
 # Stage 1: Build
-FROM maven:3.8.4-openjdk-17 AS build
+FROM maven:3-eclipse-temurin-21 AS build
 WORKDIR /app
 COPY pom.xml .
+# Dependency caching: download deps first so source changes don't re-download.
+# || true because go-offline may partially fail on optional plugins; the real
+# build in the next step will catch genuine errors.
+RUN mvn dependency:go-offline -B || true
 COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Stage 2: Run
-FROM eclipse-temurin:17-jdk-alpine
+FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
-# Vi kopierar jar-filen och döper den till app.jar för enkelhetens skull
 COPY --from=build /app/target/*.jar app.jar
 
-# Railway använder PORT-variabeln, lokalt faller vi tillbaka på 8080
+# Railway sätter PORT via miljövariabel, lokalt faller vi tillbaka på 8080
 ENV PORT=8080
-EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+CMD ["java", "-jar", "app.jar"]
