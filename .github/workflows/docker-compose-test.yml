@@ -1,0 +1,38 @@
+name: Docker Compose Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  docker-compose-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build and start services
+        run: docker compose -f docker-compose.test.yml up -d --build --wait
+        timeout-minutes: 10
+
+      - name: Verify backend responds
+        run: |
+          response=$(curl -sf http://localhost:8080/home)
+          echo "Backend response: $response"
+          [ "$response" = "Spring Boot MVP" ]
+
+      - name: Verify frontend responds
+        run: |
+          curl -sf http://localhost:3000 | grep -q '<div id="root"'
+          echo "Frontend is serving the React app"
+
+      - name: Show logs on failure
+        if: failure()
+        run: docker compose -f docker-compose.test.yml logs
+
+      - name: Teardown
+        if: always()
+        run: docker compose -f docker-compose.test.yml down

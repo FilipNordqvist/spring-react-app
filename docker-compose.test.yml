@@ -29,14 +29,3 @@ services:
       timeout: 5s
       retries: 10
       start_period: 15s
-
-  test-runner:
-    image: alpine:3.20
-    depends_on:
-      backend:
-        condition: service_healthy
-      frontend:
-        condition: service_healthy
-    volumes:
-      - ./tests/docker-compose-test.sh:/tests/docker-compose-test.sh:ro
-    entrypoint: ["sh", "/tests/docker-compose-test.sh"]
