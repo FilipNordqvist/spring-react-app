@@ -8,8 +8,7 @@ RUN if [ -f proxy-ca.crt ]; then \
 ENV NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
 RUN npm install
 
-ARG REACT_APP_API_URL=http://localhost:8080
-ENV REACT_APP_API_URL=$REACT_APP_API_URL
+ENV REACT_APP_API_URL=http://localhost:8080
 
 RUN npm run build
 
