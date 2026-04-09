@@ -8,6 +8,7 @@ services:
     environment:
       - PORT=8080
       - WEATHER_API_KEY=7f8eab7e7da63b1d81b39dea5677eab6
+      - SPRING_PROFILES_ACTIVE=local
     healthcheck:
       test: ["CMD-SHELL", "wget --spider -q http://localhost:8080/home || exit 1"]
       interval: 5s
@@ -27,6 +28,7 @@ services:
     environment:
       - PORT=3000
       - REACT_APP_API_URL=http://localhost:8080
+      
     healthcheck:
       test: ["CMD-SHELL", "wget --spider -q http://localhost:3000 || exit 1"]
       interval: 5s

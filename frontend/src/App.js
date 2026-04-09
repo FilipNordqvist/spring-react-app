@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-
 const normalizeApiBaseUrl = (value) => {
   if (!value) {
     return "http://localhost:8080";
@@ -19,7 +18,7 @@ const normalizeApiBaseUrl = (value) => {
 };
 
 const API_BASE_URL = normalizeApiBaseUrl(
-  window.__ENV__?.API_BASE_URL || process.env.REACT_APP_API_URL
+  window.__ENV__?.API_BASE_URL || process.env.REACT_APP_API_URL,
 );
 
 function App() {
@@ -28,7 +27,17 @@ function App() {
   const [recipe, setRecipe] = useState(null);
   const [city, setCity] = useState("");
   const [weather, setWeather] = useState(null);
+  const [history, setHistory] = useState([]);
 
+ const fetchHistory = () => {
+   fetch(`${API_BASE_URL}/history`)
+     .then((response) => response.json())
+     .then((data) => {
+       console.log("History:", data); // ← lägg till denna
+       setHistory(data);
+     })
+     .catch((error) => console.log("Error:", error));
+ };
 
   useEffect(() => {
     fetch(`${API_BASE_URL}/home`)
@@ -37,24 +46,22 @@ function App() {
       .catch((error) => console.log("Error fetching", error));
   }, []);
 
-   const fetchRecipe = () => {
-     fetch(`${API_BASE_URL}/recipe`)
-       .then((response) => response.json())
-       .then((data) => setRecipe(data.meals[0]))
-       .catch((error) => console.log("Error:", error));
-   };
+  const fetchRecipe = () => {
+    fetch(`${API_BASE_URL}/recipe`)
+      .then((response) => response.json())
+      .then((data) => setRecipe(data.meals[0]))
+      .catch((error) => console.log("Error:", error));
+  };
 
- const fetchWeather = () => {
-   fetch(`${API_BASE_URL}/weather?city=${city}`)
-     .then((response) => response.json())
-     .then((data) => {
-       console.log(data); // Kolla vad du får
-       setWeather(data);
-     })
-     .catch((error) => console.log("Error:", error));
- };
-
-
+  const fetchWeather = () => {
+    fetch(`${API_BASE_URL}/weather?city=${city}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setWeather(data);
+        setTimeout(() => fetchHistory(), 500); // ← vänta 500ms
+      })
+      .catch((error) => console.log("Error:", error));
+  };
 
   return (
     <div style={{ textAlign: "center", marginTop: "100px" }}>
@@ -86,6 +93,17 @@ function App() {
             <div>
               <p>🏙️ Stad: {weather.name}</p>
               <p>🌡️ Temp: {weather.main.temp}°C</p>
+            </div>
+          )}
+
+          {history.length > 0 && (
+            <div>
+              <h3>🕓 Sökhistorik</h3>
+              {history.map((item) => (
+                <p key={item.id}>
+                  {item.city} – {new Date(item.searchedAt).toLocaleString()}
+                </p>
+              ))}
             </div>
           )}
 
